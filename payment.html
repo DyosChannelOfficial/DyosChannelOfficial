@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran | DYOS CHANNEL OFFICIAL</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .payment-container {
+      padding: 2rem;
+      text-align: center;
+      max-width: 650px;
+      margin: auto;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      border: 1px solid #ff005544;
+    }
+    header { text-align: center; padding-top: 1rem; }
+    h1 { color: #fff; margin-bottom: 0.2rem; }
+    h2 { margin-top: 1rem; color: #ff0055; }
+    h3 { margin-top: 1.5rem; color: #ff0088; }
+    .harga {
+      color: red;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+      margin-top: 1rem;
+      font-size: 1rem;
+      background-color: #333;
+      color: #fff;
+    }
+    .info { color: #ccc; margin-top: 1rem; }
+    .rekening-list {
+      text-align: left;
+      margin-top: 2rem;
+    }
+    .rekening-list h3 {
+      color: #ff0088;
+      margin-bottom: 0.5rem;
+    }
+    .rekening-list .item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0.3rem 0;
+      color: #ddd;
+    }
+    .rekening-list .item img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .back-btn, .wa-btn, .toggle-qris {
+      display: inline-block;
+      margin: 1rem 0.5rem 0;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .back-btn { background-color: #555; color: white; }
+    .back-btn:hover { background-color: #444; }
+    .wa-btn { background-color: #25D366; color: white; }
+    .wa-btn:hover { background-color: #1ebc5c; }
+    .toggle-qris { background-color: #ff0055; color: white; }
+    .toggle-qris:hover { background-color: #cc0044; }
+    #qris-section {
+      display: none;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    #qris-section img {
+      width: 250px;
+      margin-top: 0.5rem;
+    }
+    #popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00000066;
+      z-index: 999;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pembayaran</h1>
+    <p>Silakan isi nama Anda dan pilih metode pembayaran</p>
+  </header>
+
+  <main class="payment-container">
+    <h2 id="paket-title">Paket IPTV</h2>
+    <p class="harga" id="harga">Rp -</p>
+
+    <input type="text" id="nama" placeholder="Masukkan Nama Anda" required />
+
+    <p class="info" id="info-text">Transfer ke rekening atau e-wallet berikut:</p>
+
+    <div class="rekening-list" id="rekening">
+      <h3>🏦 Transfer Bank</h3>
+      <div class="item"><img src="assets/bank-mandiri.png" alt="Mandiri"> Mandiri: 1610007715050 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/bank-bni.png" alt="BNI"> BNI: 1922516179 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/bank-jago.png" alt="JAGO"> JAGO: 109444655135 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/bank-seabank.png" alt="SeaBank"> SeaBank: 901178455562 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/bank-superbank.png" alt="Superbank"> Superbank: 000004544599 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/bank-jenius.png" alt="Jenius"> BTPN / Jenius: 90380098405 a.n. Cahyadi</div>
+
+      <h3>📱 E-Wallet</h3>
+      <div class="item"><img src="assets/gopay.png" alt="Gopay"> Gopay: 082247433423 a.n. Sri Rismiharti</div>
+      <div class="item"><img src="assets/ovo.png" alt="OVO"> OVO: 082247433423 a.n. Cahyadi</div>
+      <div class="item"><img src="assets/dana.png" alt="DANA"> DANA: 082247433423 a.n. Cahyadi</div>
+    </div>
+
+    <button class="toggle-qris" onclick="toggleQRIS()" id="qrisBtn">Tampilkan QRIS</button>
+
+    <div id="qris-section">
+      <h3>🔳 QRIS Pembayaran</h3>
+      <img src="assets/qris.png" alt="QRIS Pembayaran" />
+      <p style="color:#ccc; margin-top: 0.5rem;">Scan QRIS di atas untuk pembayaran cepat</p>
+    </div>
+
+    <p class="info">Setelah membayar, klik tombol WA untuk kirim bukti pembayaran.</p>
+    <a href="#" id="wa-link" class="wa-btn">Kirim via WhatsApp</a>
+    <a href="index.html" class="back-btn">Kembali</a>
+  </main>
+
+  <div id="popup">✅ Bukti pembayaran siap dikirim via WhatsApp</div>
+
+  <footer>
+    <p>&copy; 2025 DYOS CHANNEL OFFICIAL. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const paketParams = new URLSearchParams(window.location.search);
+    const paket = paketParams.get("paket");
+
+    const paketData = {
+      '12promo1': { title: '12 Bulan (1 Device + Dewasa)', harga: 'Rp200.000' },
+      '12promo2': { title: '12 Bulan (2 Device + Dewasa)', harga: 'Rp270.000' },
+      '12promo5': { title: '12 Bulan (5 Device)', harga: 'Rp500.000' },
+      '12promo10': { title: '12 Bulan (10 Device + Dewasa)', harga: 'Rp1.000.000' },
+      '24promo1': { title: '24 Bulan (1 Device)', harga: 'Rp400.000' },
+      'lifetime': {
+        title: 'Lifetime (Chat Admin)',
+        harga: 'Hubungi Admin',
+        isLifetime: true,
+        link: 'https://wa.me/628247433423?text=Halo%20Admin,%20saya%20ingin%20berlangganan%20paket%20Lifetime%20IPTV.%20Mohon%20informasinya.'
+      },
+      '12bln1': { title: '12 Bulan (1 Device)', harga: 'Rp200.000' },
+      '12bln2': { title: '12 Bulan (2 Device)', harga: 'Rp320.000' },
+      '12bln1d': { title: '12 Bulan (1 Device + Dewasa)', harga: 'Rp220.000' },
+      '12bln2d': { title: '12 Bulan (2 Device + Dewasa)', harga: 'Rp350.000' },
+      '6bln1': { title: '6 Bulan (1 Device)', harga: 'Rp110.000' },
+      '6bln2': { title: '6 Bulan (2 Device)', harga: 'Rp135.000' },
+      '6bln1d': { title: '6 Bulan (1 Device + Dewasa)', harga: 'Rp130.000' },
+      '6bln2d': { title: '6 Bulan (2 Device + Dewasa)', harga: 'Rp145.000' },
+      '3bln1': { title: '3 Bulan (1 Device)', harga: 'Rp85.000' },
+      '3bln2': { title: '3 Bulan (2 Device)', harga: 'Rp105.000' },
+      '3bln1d': { title: '3 Bulan (1 Device + Dewasa)', harga: 'Rp100.000' },
+      '3bln2d': { title: '3 Bulan (2 Device + Dewasa)', harga: 'Rp125.000' },
+      '1bln1': { title: '1 Bulan (1 Device)', harga: 'Rp30.000' },
+      '1bln2': { title: '1 Bulan (2 Device)', harga: 'Rp50.000' },
+      '1bln1d': { title: '1 Bulan (1 Device + Dewasa)', harga: 'Rp40.000' },
+      '1bln2d': { title: '1 Bulan (2 Device + Dewasa)', harga: 'Rp65.000' }
+    };
+
+    const waBtn = document.getElementById("wa-link");
+    const namaInput = document.getElementById("nama");
+
+    if (paketData[paket]) {
+      const data = paketData[paket];
+      document.getElementById("paket-title").textContent = `Paket ${data.title}`;
+      document.getElementById("harga").textContent = data.harga;
+
+      if (data.isLifetime) {
+        // Mode lifetime langsung link ke WA
+        document.getElementById("nama").style.display = "none";
+        document.getElementById("rekening").style.display = "none";
+        document.getElementById("qrisBtn").style.display = "none";
+        document.getElementById("info-text").style.display = "none";
+        waBtn.href = data.link;
+        waBtn.textContent = "Hubungi Admin Sekarang";
+      } else {
+        waBtn.addEventListener("click", function (e) {
+          const nama = namaInput.value.trim();
+          if (!nama) {
+            alert("Silakan masukkan nama Anda terlebih dahulu.");
+            e.preventDefault();
+            return;
+          }
+          const pesan = `Halo Admin, saya *${nama}* telah melakukan pembayaran untuk paket *${data.title}* sebesar *${data.harga}*. Berikut bukti pembayaran:\n\n[Silakan lampirkan gambar bukti]`;
+          const linkWA = `https://wa.me/6282247433423?text=${encodeURIComponent(pesan)}`;
+          waBtn.href = linkWA;
+
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+          setTimeout(() => popup.style.display = "none", 4000);
+        });
+      }
+    } else {
+      document.getElementById("paket-title").textContent = "Paket Tidak Dikenal";
+      document.getElementById("harga").textContent = "Rp -";
+    }
+
+    function toggleQRIS() {
+      const qris = document.getElementById("qris-section");
+      qris.style.display = qris.style.display === "none" ? "block" : "none";
+    }
+  </script>
+</body>
+</html>
